@@ -14,8 +14,8 @@ const initialContacts = [
 ];
 
 export class App extends Component {
-  state = {
-    contacts: [],
+   state = {
+    contacts: initialContacts ,
     filter: '',
   };
   componentDidMount() {
@@ -23,10 +23,8 @@ export class App extends Component {
     if (savedContacts !== null) {
       const parsedContacts = JSON.parse(savedContacts);
       this.setState({ contacts: parsedContacts });
-    } else {
-      this.setState({ contacts: initialContacts });
     }
-  }
+  } 
   componentDidUpdate(_, prevState) {
     if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem(
@@ -47,15 +45,9 @@ export class App extends Component {
     ) {
       alert(`${name} is alredy in contacts`);
     } else {
-      this.setState(oldState => {
-        const list = [...oldState.contacts];
-        list.push({
-          id: nanoid(),
-          name: name,
-          number: number,
-        });
-        return { contacts: list };
-      });
+      this.setState(prevState => {
+      return { contacts: [...prevState.contacts, {    id: nanoid(), name, number }] };
+    });
     }
   };
 
